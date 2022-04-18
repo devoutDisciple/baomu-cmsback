@@ -1,22 +1,22 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
-  return sequelize.define('subject', {
+  return sequelize.define('device', {
     id: {
       autoIncrement: true,
       type: Sequelize.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    project_id: {
+    user_id: {
       type: Sequelize.INTEGER,
-      allowNull: false,
-      comment: "所属的课程的id"
+      allowNull: true,
+      comment: "发布人id"
     },
-    title: {
+    name: {
       type: Sequelize.STRING(255),
       allowNull: true,
-      comment: "title"
+      comment: "工作室名称"
     },
     start_time: {
       type: Sequelize.DATE,
@@ -28,84 +28,88 @@ module.exports = (sequelize) => {
       allowNull: true,
       comment: "结束时间"
     },
-    teacher_ids: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      defaultValue: "[]",
-      comment: "授课老师的id"
-    },
-    price: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      defaultValue: "0",
-      comment: "总价"
-    },
-    apply_price: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      defaultValue: "0",
-      comment: "报名价格"
-    },
-    cluster_price: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      defaultValue: "0",
-      comment: "组团价格"
-    },
-    total_person: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      defaultValue: 0,
-      comment: "总报名人数"
-    },
-    apply_num: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      defaultValue: 0,
-      comment: "报名人数"
-    },
-    cluster_num: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      defaultValue: 0,
-      comment: "组团人数"
-    },
-    limit_num: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      defaultValue: 0,
-      comment: "限制人数"
-    },
-    state: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      defaultValue: 1,
-      comment: "1-未开始 2-进行中 3-已结束"
-    },
-    tags: {
+    img_urls: {
       type: Sequelize.STRING(800),
       allowNull: true,
       defaultValue: "[]",
-      comment: "标签"
+      comment: "设备图片"
     },
-    sort: {
+    price: {
+      type: Sequelize.STRING(11),
+      allowNull: true,
+      comment: "价格"
+    },
+    desc: {
+      type: Sequelize.STRING(8000),
+      allowNull: true,
+      comment: "简介"
+    },
+    is_authentication: {
       type: Sequelize.INTEGER,
       allowNull: true,
-      defaultValue: 1
+      defaultValue: 1,
+      comment: "专业设备认证 1-认证 2-不认证"
+    },
+    grade: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      defaultValue: "5.0",
+      comment: "评分"
+    },
+    comment_num: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 0,
+      comment: "评论数量"
+    },
+    goods_num: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 0,
+      comment: "点赞数量"
+    },
+    province: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "省份"
+    },
+    city: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "城市"
+    },
+    addressAll: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "详细地址"
+    },
+    addressName: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "缩略地点"
+    },
+    latitude: {
+      type: Sequelize.STRING(255),
+      allowNull: true
+    },
+    longitude: {
+      type: Sequelize.STRING(255),
+      allowNull: true
     },
     create_time: {
       type: Sequelize.DATE,
-      allowNull: true
+      allowNull: true,
+      comment: "创建时间"
     },
     is_delete: {
       type: Sequelize.INTEGER,
       allowNull: true,
       defaultValue: 1,
-      comment: "1-存在 2-删除"
+      comment: "是否存在 1-存在 2-不存在"
     }
   }, {
     sequelize,
-    tableName: 'subject',
+    tableName: 'device',
     timestamps: false,
     indexes: [
       {

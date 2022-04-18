@@ -1,42 +1,42 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
-  return sequelize.define('detail', {
+  return sequelize.define('demand_evaluate', {
     id: {
       autoIncrement: true,
       type: Sequelize.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    sub_id: {
+    demand_id: {
       type: Sequelize.INTEGER,
-      allowNull: true
+      allowNull: true,
+      comment: "需求id"
     },
-    url: {
+    user_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      comment: "评价的用户"
+    },
+    publisher_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      comment: "发布方的id"
+    },
+    grade: {
       type: Sequelize.STRING(255),
-      allowNull: true
-    },
-    detail_urls: {
-      type: Sequelize.STRING(2000),
       allowNull: true,
-      defaultValue: "[]",
-      comment: "课程详情的图片"
+      comment: "评分"
     },
-    teacher_urls: {
-      type: Sequelize.STRING(2000),
+    desc: {
+      type: Sequelize.STRING(800),
       allowNull: true,
-      defaultValue: "[]",
-      comment: "师资团队的图片"
-    },
-    signup_urls: {
-      type: Sequelize.STRING(2000),
-      allowNull: true,
-      defaultValue: "[]",
-      comment: "报名须知的图片"
+      comment: "描述"
     },
     create_time: {
       type: Sequelize.DATE,
-      allowNull: true
+      allowNull: true,
+      comment: "创建时间"
     },
     is_delete: {
       type: Sequelize.INTEGER,
@@ -46,7 +46,7 @@ module.exports = (sequelize) => {
     }
   }, {
     sequelize,
-    tableName: 'detail',
+    tableName: 'demand_evaluate',
     timestamps: false,
     indexes: [
       {

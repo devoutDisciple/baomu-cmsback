@@ -33,9 +33,8 @@ app.use(
 	}),
 );
 
-app.use(express.static(config.staticPath));
 // 前端资源存放地址
-app.use(express.static(config.sourcePath));
+app.use(express.static(config.staticPath));
 
 // parse application/json
 app.use(express.json());

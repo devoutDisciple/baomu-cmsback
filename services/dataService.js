@@ -3,13 +3,15 @@ const moment = require('moment');
 const resultMessage = require('../util/resultMessage');
 const sequelize = require('../dataSource/MysqlPoolClass');
 const user = require('../models/user');
-const order = require('../models/order');
+const production = require('../models/production');
 const pay = require('../models/pay');
+const team = require('../models/team');
 const responseUtil = require('../util/responseUtil');
 const ObjectUtil = require('../util/ObjectUtil');
 
-const orderModel = order(sequelize);
+const productionModel = production(sequelize);
 const userModel = user(sequelize);
+const teamModel = team(sequelize);
 const payModel = pay(sequelize);
 
 const Op = Sequelize.Op;
@@ -33,26 +35,24 @@ module.exports = {
 						},
 					},
 				})) || 0;
-			// 总报名数
-			const totalSignup = (await orderModel.count({ where: { type: 1, is_delete: 1 } })) || 0;
-			// 今日报名人数
-			const todaySignup =
-				(await orderModel.count({
+			// 总团队数量
+			const totalTeams = (await teamModel.count({ where: { is_delete: 1 } })) || 0;
+			// 今日新增团队数量
+			const todayTeams =
+				(await teamModel.count({
 					where: {
-						type: 1,
 						is_delete: 1,
 						create_time: {
 							[Op.gte]: todayTime,
 						},
 					},
 				})) || 0;
-			// 总组团人数
-			const totalTeams = (await orderModel.count({ where: { type: 2, is_delete: 1 } })) || 0;
+			// 总作品或者状态数量
+			const totalProductions = (await productionModel.count({ where: { is_delete: 1 } })) || 0;
 			// 今日报名人数
-			const todayTeams =
-				(await orderModel.count({
+			const todayProductions =
+				(await productionModel.count({
 					where: {
-						type: 2,
 						is_delete: 1,
 						create_time: {
 							[Op.gte]: todayTime,
@@ -79,8 +79,8 @@ module.exports = {
 				resultMessage.success({
 					totalUsers,
 					todayUsers,
-					totalSignup,
-					todaySignup,
+					totalProductions,
+					todayProductions,
 					totalTeams,
 					todayTeams,
 					totalMoney,
@@ -94,7 +94,7 @@ module.exports = {
 	},
 
 	// 获取用户增长记录数据
-	getUserNumData: async (req, res) => {
+	getUserData: async (req, res) => {
 		try {
 			const { startTime, endTime } = req.query;
 			const users = await userModel.findAll({
@@ -105,6 +105,30 @@ module.exports = {
 						[Op.gte]: moment(startTime).format(startTimeFormat),
 						[Op.lte]: moment(endTime).format(endTimeFormat),
 					},
+					type: 1,
+				},
+			});
+			const result = ObjectUtil.countNumByTime(responseUtil.renderFieldsAll(users, ['id', 'create_time']));
+			res.send(resultMessage.success(result));
+		} catch (error) {
+			console.log(error);
+			return res.send(resultMessage.error([]));
+		}
+	},
+
+	// 团队增长曲线
+	getTeamData: async (req, res) => {
+		try {
+			const { startTime, endTime } = req.query;
+			const users = await userModel.findAll({
+				order: [['create_time', 'ASC']],
+				attributes: ['id', 'create_time'],
+				where: {
+					create_time: {
+						[Op.gte]: moment(startTime).format(startTimeFormat),
+						[Op.lte]: moment(endTime).format(endTimeFormat),
+					},
+					type: 2,
 				},
 			});
 			const result = ObjectUtil.countNumByTime(responseUtil.renderFieldsAll(users, ['id', 'create_time']));
@@ -116,7 +140,7 @@ module.exports = {
 	},
 
 	// 获取收入曲线
-	getSalesData: async (req, res) => {
+	getMoneyData: async (req, res) => {
 		try {
 			const { startTime, endTime } = req.query;
 			const users = await payModel.findAll({
@@ -138,47 +162,21 @@ module.exports = {
 		}
 	},
 
-	// 报名人数
-	getSignupData: async (req, res) => {
+	// 获取作品增长曲线
+	getProductionData: async (req, res) => {
 		try {
 			const { startTime, endTime } = req.query;
-			const datas = await orderModel.findAll({
+			const users = await productionModel.findAll({
 				order: [['create_time', 'ASC']],
-				attributes: ['id', 'type', 'pay_state'],
+				attributes: ['id', 'create_time'],
 				where: {
 					create_time: {
 						[Op.gte]: moment(startTime).format(startTimeFormat),
 						[Op.lte]: moment(endTime).format(endTimeFormat),
 					},
-					type: 1,
-					is_delete: 1,
 				},
 			});
-			const result = ObjectUtil.countNumByTime(responseUtil.renderFieldsAll(datas, ['id', 'type', 'pay_state']));
-			res.send(resultMessage.success(result));
-		} catch (error) {
-			console.log(error);
-			return res.send(resultMessage.error([]));
-		}
-	},
-
-	// 组团人数
-	getTeamData: async (req, res) => {
-		try {
-			const { startTime, endTime } = req.query;
-			const datas = await orderModel.findAll({
-				order: [['create_time', 'ASC']],
-				attributes: ['id', 'type', 'pay_state'],
-				where: {
-					create_time: {
-						[Op.gte]: moment(startTime).format(startTimeFormat),
-						[Op.lte]: moment(endTime).format(endTimeFormat),
-					},
-					type: 2,
-					is_delete: 1,
-				},
-			});
-			const result = ObjectUtil.countNumByTime(responseUtil.renderFieldsAll(datas, ['id', 'type', 'pay_state']));
+			const result = ObjectUtil.countNumByTime(responseUtil.renderFieldsAll(users, ['id', 'create_time']));
 			res.send(resultMessage.success(result));
 		} catch (error) {
 			console.log(error);

@@ -10,75 +10,156 @@ module.exports = (sequelize) => {
     },
     wx_openid: {
       type: Sequelize.STRING(255),
-      allowNull: true
+      allowNull: true,
+      comment: "微信标识"
+    },
+    nickname: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "微信名称"
+    },
+    username: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "真实姓名"
+    },
+    photo: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "头像"
+    },
+    bg_url: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      defaultValue: "person_default_bg.png",
+      comment: "背景图片"
     },
     phone: {
       type: Sequelize.STRING(255),
       allowNull: true,
       comment: "手机号"
     },
-    username: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      comment: "用户名称"
-    },
-    password: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      comment: "密码"
-    },
-    photo: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      defaultValue: "https:\/\/www.chiangky.com\/photo\/photo.png",
-      comment: "头像"
-    },
-    bg_url: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      comment: "背景图片"
-    },
-    birthday: {
-      type: Sequelize.DATE,
-      allowNull: true,
-      comment: "生日"
-    },
     sex: {
       type: Sequelize.INTEGER,
       allowNull: true,
-      comment: "1- 男 2-女"
+      defaultValue: 1,
+      comment: "1-男 2-女"
+    },
+    age: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      comment: "年龄"
+    },
+    grade: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      defaultValue: "5.0",
+      comment: "评分"
+    },
+    type: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 1,
+      comment: "1-个人 2-乐队 3-乐团"
+    },
+    team_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      comment: "乐队id"
+    },
+    comment_num: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 0,
+      comment: "评论数量"
+    },
+    attention_num: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 0,
+      comment: "关注数量"
+    },
+    fans_num: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 0,
+      comment: "粉丝数量"
+    },
+    goods_num: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 0,
+      comment: "点赞数量"
+    },
+    is_name: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 2,
+      comment: "是否实名认证 1-是 2-否"
+    },
+    is_scholl: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 2,
+      comment: "是否学校认证 1-是 2-否"
+    },
+    is_award: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 2,
+      comment: "是否获奖认证 1-是 2-否"
+    },
+    is_level: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 2,
+      comment: "是否考级认证 1-是 2-否"
+    },
+    longitude: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "经度"
+    },
+    latitude: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "纬度"
+    },
+    province: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "省份"
+    },
+    city: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "城市"
     },
     address: {
       type: Sequelize.STRING(255),
       allowNull: true,
-      comment: "地址"
+      comment: "详细地址"
     },
-    sign: {
-      type: Sequelize.STRING(255),
+    play_id: {
+      type: Sequelize.INTEGER,
       allowNull: true,
-      comment: "个性签名"
+      comment: "演奏方式"
     },
-    integral: {
-      type: Sequelize.STRING(255),
+    style_id: {
+      type: Sequelize.INTEGER,
       allowNull: true,
-      defaultValue: "0",
-      comment: "积分"
+      defaultValue: 1,
+      comment: "擅长风格"
+    },
+    desc: {
+      type: Sequelize.STRING(800),
+      allowNull: true,
+      comment: "个人签名"
     },
     create_time: {
       type: Sequelize.DATE,
       allowNull: true,
       comment: "创建时间"
-    },
-    update_time: {
-      type: Sequelize.DATE,
-      allowNull: true,
-      comment: "更新时间"
-    },
-    disable: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      defaultValue: 1,
-      comment: "是否可用 1-可用 2-封禁"
     },
     is_delete: {
       type: Sequelize.INTEGER,

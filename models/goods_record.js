@@ -1,52 +1,46 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
-  return sequelize.define('account', {
+  return sequelize.define('goods_record', {
     id: {
       autoIncrement: true,
       type: Sequelize.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    username: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      comment: "用户名称"
-    },
-    account: {
-      type: Sequelize.STRING(255),
+    user_id: {
+      type: Sequelize.INTEGER,
       allowNull: false,
-      comment: "登录账号"
+      comment: "用户id"
     },
-    password: {
-      type: Sequelize.STRING(255),
-      allowNull: false,
-      comment: "密码"
-    },
-    phone: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      comment: "手机号"
-    },
-    role: {
+    other_id: {
       type: Sequelize.INTEGER,
       allowNull: true,
-      comment: "1-超级管理员 2-管理员 3-用户"
+      comment: "发布人的id"
     },
-    is_delete: {
+    type: {
       type: Sequelize.INTEGER,
       allowNull: true,
       defaultValue: 1,
-      comment: "1-存在 2-删除"
+      comment: "1-帖子赞 2-评论赞 3-评论的评论"
+    },
+    content_id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      comment: "帖子，博客，投票，pk的id"
+    },
+    comment_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      comment: "评论id"
     },
     create_time: {
       type: Sequelize.DATE,
-      allowNull: true,
-      comment: "创建时间"
+      allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'account',
+    tableName: 'goods_record',
     timestamps: false,
     indexes: [
       {

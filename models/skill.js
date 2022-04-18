@@ -1,27 +1,37 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
-  return sequelize.define('teacher', {
+  return sequelize.define('skill', {
     id: {
       autoIncrement: true,
       type: Sequelize.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    name: {
-      type: Sequelize.STRING(255),
-      allowNull: true
+    user_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      comment: "用户id"
     },
-    photo: {
+    skill_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      comment: "技能id"
+    },
+    grade: {
       type: Sequelize.STRING(255),
       allowNull: true,
-      defaultValue: "photo.png",
-      comment: "头像"
+      comment: "评分"
+    },
+    state: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 1,
+      comment: "技能状态 1-未认证 2-认证中 3-认证失败 4-认证成功"
     },
     create_time: {
       type: Sequelize.DATE,
-      allowNull: true,
-      comment: "创建时间"
+      allowNull: true
     },
     is_delete: {
       type: Sequelize.INTEGER,
@@ -31,7 +41,7 @@ module.exports = (sequelize) => {
     }
   }, {
     sequelize,
-    tableName: 'teacher',
+    tableName: 'skill',
     timestamps: false,
     indexes: [
       {

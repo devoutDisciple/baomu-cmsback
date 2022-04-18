@@ -10,17 +10,22 @@ module.exports = (sequelize) => {
     },
     user_id: {
       type: Sequelize.STRING(255),
-      allowNull: false
+      allowNull: false,
+      comment: "用户id"
     },
     open_id: {
       type: Sequelize.STRING(255),
       allowNull: false
     },
+    demand_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      comment: "对应需求的id"
+    },
     type: {
       type: Sequelize.INTEGER,
-      allowNull: false,
-      defaultValue: 1,
-      comment: "1-报名费用 2-组团费用"
+      allowNull: true,
+      comment: "1-商户付款 2-付款给演员"
     },
     pay_type: {
       type: Sequelize.STRING(255),
@@ -30,28 +35,38 @@ module.exports = (sequelize) => {
     },
     out_trade_no: {
       type: Sequelize.STRING(255),
-      allowNull: false,
-      comment: "商户系统内部订单号"
+      allowNull: true,
+      comment: "支付-商户系统内部订单号"
     },
     transaction_id: {
       type: Sequelize.STRING(255),
-      allowNull: false,
-      comment: "微信支付订单号"
+      allowNull: true,
+      comment: "支付-微信支付订单号"
     },
     trade_state: {
       type: Sequelize.STRING(255),
-      allowNull: false,
-      comment: "支付状态"
+      allowNull: true,
+      comment: "支付-支付状态"
+    },
+    out_refund_no: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "退款-退款单号"
+    },
+    refund_id: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "退款-微信内部退款单号"
+    },
+    refund_state: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "退款-退款状态"
     },
     money: {
       type: Sequelize.STRING(255),
       allowNull: false,
-      comment: "支付金额"
-    },
-    success_time: {
-      type: Sequelize.DATE,
-      allowNull: false,
-      comment: "支付成功时间"
+      comment: "金额"
     },
     create_time: {
       type: Sequelize.DATE,

@@ -8,59 +8,79 @@ module.exports = (sequelize) => {
       allowNull: false,
       primaryKey: true
     },
-    uuid: {
+    team_uuid: {
       type: Sequelize.STRING(255),
-      allowNull: true,
-      comment: "拼团的唯一标识"
-    },
-    subject_id: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      comment: "课程id"
-    },
-    project_id: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      comment: "项目id"
-    },
-    order_ids: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      defaultValue: "[]",
-      comment: "对应的订单ids"
+      allowNull: false
     },
     user_ids: {
       type: Sequelize.STRING(255),
       allowNull: true,
-      defaultValue: "[]",
-      comment: "报名的用户ids"
+      comment: "成员id"
     },
-    start_user_id: {
+    ower_id: {
       type: Sequelize.INTEGER,
       allowNull: true,
-      comment: "发起人的id"
+      comment: "队长id"
     },
-    num: {
+    user_table_id: {
       type: Sequelize.INTEGER,
       allowNull: true,
-      defaultValue: 0,
-      comment: "已报名人员人数"
+      comment: "对应的用户表的id"
     },
-    state: {
+    name: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "团队名称"
+    },
+    photo: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "团队头像"
+    },
+    bg_url: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "背景图片"
+    },
+    style_id: {
       type: Sequelize.INTEGER,
       allowNull: true,
-      defaultValue: 1,
-      comment: "拼团状态 1-未开始 2-进行中 3-拼团成功 4-拼团超时失败 5-拼团人数不够失败 6-拼团失败已退款"
+      comment: "风格id"
+    },
+    desc: {
+      type: Sequelize.STRING(800),
+      allowNull: true,
+      comment: "简介"
+    },
+    latitude: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "经度"
+    },
+    longitude: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "纬度"
+    },
+    province: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "省份"
+    },
+    city: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "城市"
+    },
+    address: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "个人签名"
     },
     create_time: {
       type: Sequelize.DATE,
       allowNull: true,
       comment: "创建时间"
-    },
-    end_time: {
-      type: Sequelize.DATE,
-      allowNull: true,
-      comment: "结束时间"
     },
     is_delete: {
       type: Sequelize.INTEGER,

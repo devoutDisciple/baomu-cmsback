@@ -1,27 +1,32 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
-  return sequelize.define('project', {
+  return sequelize.define('idcard', {
     id: {
       autoIncrement: true,
       type: Sequelize.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    name: {
+    user_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      comment: "用户id"
+    },
+    idcard1: {
       type: Sequelize.STRING(255),
-      allowNull: true
+      allowNull: true,
+      comment: "身份证正面"
     },
-    type_id: {
+    idcard2: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "身份证反面"
+    },
+    state: {
       type: Sequelize.INTEGER,
       allowNull: true,
-      comment: "所属类别id"
-    },
-    sort: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      defaultValue: 1,
-      comment: "排序"
+      comment: "认证状态 1-未认证 2-认证中 3-认证失败 4-认证成功"
     },
     create_time: {
       type: Sequelize.DATE,
@@ -36,7 +41,7 @@ module.exports = (sequelize) => {
     }
   }, {
     sequelize,
-    tableName: 'project',
+    tableName: 'idcard',
     timestamps: false,
     indexes: [
       {

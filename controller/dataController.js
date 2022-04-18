@@ -9,23 +9,23 @@ router.get('/total', (req, res) => {
 });
 
 // 获取用户增长数据
-router.get('/userNumData', (req, res) => {
-	dataService.getUserNumData(req, res);
+router.get('/userData', (req, res) => {
+	dataService.getUserData(req, res);
+});
+
+// 获取团队增长数据
+router.get('/teamData', (req, res) => {
+	dataService.getTeamData(req, res);
 });
 
 // 获取收入增长数据
-router.get('/salesMoneyData', (req, res) => {
-	dataService.getSalesData(req, res);
+router.get('/moneyData', (req, res) => {
+	dataService.getMoneyData(req, res);
 });
 
-// 获取报名增长数据
-router.get('/signupData', (req, res) => {
-	dataService.getSignupData(req, res);
-});
-
-// 获取点赞增长数据
-router.get('/teamData', (req, res) => {
-	dataService.getTeamData(req, res);
+// 获取作品增长数据
+router.get('/productionData', (req, res) => {
+	dataService.getProductionData(req, res);
 });
 
 module.exports = router;

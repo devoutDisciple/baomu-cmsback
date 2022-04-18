@@ -1,43 +1,49 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
-  return sequelize.define('account', {
+  return sequelize.define('price_record', {
     id: {
       autoIncrement: true,
       type: Sequelize.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    username: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      comment: "用户名称"
-    },
-    account: {
-      type: Sequelize.STRING(255),
-      allowNull: false,
-      comment: "登录账号"
-    },
-    password: {
-      type: Sequelize.STRING(255),
-      allowNull: false,
-      comment: "密码"
-    },
-    phone: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      comment: "手机号"
-    },
-    role: {
+    user_id: {
       type: Sequelize.INTEGER,
       allowNull: true,
-      comment: "1-超级管理员 2-管理员 3-用户"
+      comment: "参与竞价人的id"
     },
-    is_delete: {
+    publisher_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      comment: "创建需求人的id"
+    },
+    demand_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      comment: "需求id"
+    },
+    price: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "报价id"
+    },
+    type: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      comment: "1-演员报价 2-需求方报价"
+    },
+    state: {
       type: Sequelize.INTEGER,
       allowNull: true,
       defaultValue: 1,
-      comment: "1-存在 2-删除"
+      comment: "1-未参与竞标 2-竞标进行中待商议 3-被拒绝  4-中标"
+    },
+    operation: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 1,
+      comment: "第几次谈价"
     },
     create_time: {
       type: Sequelize.DATE,
@@ -46,7 +52,7 @@ module.exports = (sequelize) => {
     }
   }, {
     sequelize,
-    tableName: 'account',
+    tableName: 'price_record',
     timestamps: false,
     indexes: [
       {

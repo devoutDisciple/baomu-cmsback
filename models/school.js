@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
-  return sequelize.define('order', {
+  return sequelize.define('school', {
     id: {
       autoIncrement: true,
       type: Sequelize.INTEGER,
@@ -9,78 +9,72 @@ module.exports = (sequelize) => {
       primaryKey: true
     },
     user_id: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      comment: "用户id"
-    },
-    open_id: {
-      type: Sequelize.STRING(255),
-      allowNull: true
-    },
-    team_uuid: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      comment: "拼团的uuid"
-    },
-    out_trade_no: {
-      type: Sequelize.STRING(255),
-      allowNull: false,
-      primaryKey: true,
-      comment: "内部订单号"
-    },
-    transaction_id: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      comment: "微信支付单号"
-    },
-    subject_id: {
       type: Sequelize.INTEGER,
-      allowNull: true,
-      comment: "课程id"
-    },
-    project_id: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      comment: "班级id"
-    },
-    pay_state: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      comment: "1-已支付 2-已退款 其他"
-    },
-    type: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      comment: "1-报名 2-组团"
-    },
-    english: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      comment: "1-英语一 2：英语二"
-    },
-    math: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      comment: "1-数学一 2-数学二 3-数学三"
+      allowNull: false
     },
     name: {
       type: Sequelize.STRING(255),
-      allowNull: true,
-      comment: "真实姓名"
+      allowNull: true
     },
-    sex: {
-      type: Sequelize.INTEGER,
+    idcard: {
+      type: Sequelize.STRING(255),
       allowNull: true,
-      comment: "1-男 2-女"
+      comment: "身份证号"
     },
-    time: {
+    school_name: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "学校名称"
+    },
+    graduation_time: {
       type: Sequelize.DATE,
       allowNull: true,
-      comment: "入学时间"
+      comment: "毕业时间"
+    },
+    study_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      comment: "学习形式"
+    },
+    certificate_gov: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "证书颁发机构"
+    },
+    certificate_name: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "证书名称"
+    },
+    certificate_level: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "名次"
+    },
+    certificate_time: {
+      type: Sequelize.DATE,
+      allowNull: true,
+      comment: "证书颁发时间"
+    },
+    school_url: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "毕业证书图片"
+    },
+    award_url: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "获奖证书图片"
+    },
+    state: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      comment: "认证状态 1-未认证 2-认证中 3-认证失败 4-认证成功"
     },
     create_time: {
       type: Sequelize.DATE,
-      allowNull: true
+      allowNull: true,
+      comment: "创建时间"
     },
     is_delete: {
       type: Sequelize.INTEGER,
@@ -90,7 +84,7 @@ module.exports = (sequelize) => {
     }
   }, {
     sequelize,
-    tableName: 'order',
+    tableName: 'school',
     timestamps: false,
     indexes: [
       {
@@ -99,7 +93,6 @@ module.exports = (sequelize) => {
         using: "BTREE",
         fields: [
           { name: "id" },
-          { name: "out_trade_no" },
         ]
       },
     ]
