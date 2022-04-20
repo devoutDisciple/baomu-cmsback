@@ -97,7 +97,7 @@ module.exports = (sequelize) => {
       defaultValue: 2,
       comment: "是否实名认证 1-是 2-否"
     },
-    is_scholl: {
+    is_school: {
       type: Sequelize.INTEGER,
       allowNull: true,
       defaultValue: 2,

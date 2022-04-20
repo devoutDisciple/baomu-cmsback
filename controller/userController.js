@@ -8,4 +8,9 @@ router.get('/usersByPage', (req, res) => {
 	userService.getUsersByPage(req, res);
 });
 
+// 获取用户详情
+router.get('/userDetail', (req, res) => {
+	userService.getUserDetail(req, res);
+});
+
 module.exports = router;
