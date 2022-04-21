@@ -2,60 +2,89 @@ const moment = require('moment');
 const sequelize = require('../dataSource/MysqlPoolClass');
 const resultMessage = require('../util/resultMessage');
 const level = require('../models/level');
+const user = require('../models/user');
 const responseUtil = require('../util/responseUtil');
 const config = require('../config/config');
+const { getPhotoUrl } = require('../util/userUtil');
 
-const timeformat = 'YYYY-MM-DD HH:mm:ss';
-
+const userModal = user(sequelize);
 const levelModal = level(sequelize);
 
+levelModal.belongsTo(userModal, { foreignKey: 'user_id', targetKey: 'id', as: 'userDetail' });
+const pagesize = 10;
+
 module.exports = {
-	// 上传图片
-	uploadFile: async (req, res, filename) => {
+	// 确定通过审核或者拒绝
+	sureState: async (req, res) => {
 		try {
-			const { user_id, school_id, level_id, date } = req.body;
-			await levelModal.create({
-				user_id,
-				school_id,
-				level_id,
-				date: moment(date).format(timeformat),
-				url: filename,
-				state: 2,
-				create_time: moment().format(timeformat),
-			});
-			res.send(resultMessage.success({ url: filename }));
+			const { id, state } = req.body;
+			if (!id || !state) {
+				return res.send(resultMessage.error('系统错误'));
+			}
+			await levelModal.update({ state }, { where: { id } });
+			res.send(resultMessage.success('success'));
 		} catch (error) {
 			console.log(error);
 			res.send(resultMessage.error());
 		}
 	},
 
-	// 获取用户考级
-	getAll: async (req, res) => {
+	// 获取用户认证信息
+	getAllByPage: async (req, res) => {
 		try {
-			const { user_id } = req.query;
-			if (!user_id) return res.send(resultMessage.error('系统错误'));
-			const levels = await levelModal.findOne({ where: { user_id, is_delete: 1 } });
-			if (!levels) return res.send(resultMessage.success([]));
-			const result = responseUtil.renderFieldsObj(levels, ['school_id', 'level_id', 'date', 'url', 'state']);
-			if (result) {
-				result.url = config.preUrl.levelUrl + result.url;
-				result.date = moment(result.date).format('YYYY-MM-DD');
+			const { current, type } = req.query;
+			if (!current) return res.send(resultMessage.error('系统错误'));
+			const offset = Number(Number(current - 1) * pagesize);
+			const where = { is_delete: 1 };
+			// 认证中
+			if (Number(type) !== -1) {
+				where.state = type;
+			}
+			const idcards = await levelModal.findAndCountAll({
+				where,
+				include: [
+					{
+						model: userModal,
+						as: 'userDetail',
+						attributes: ['id', 'photo', 'nickname', 'username'],
+					},
+				],
+				limit: pagesize,
+				offset,
+			});
+			const result = {
+				count: 0,
+				list: [],
+			};
+			if (!idcards || !idcards.rows || idcards.rows.length === 0) {
+				return res.send(resultMessage.success(result));
+			}
+			result.count = idcards.count;
+			result.list = responseUtil.renderFieldsAll(idcards.rows, [
+				'id',
+				'school_id',
+				'level_id',
+				'date',
+				'url',
+				'state',
+				'userDetail',
+				'create_time',
+			]);
+			if (result.list.length !== 0) {
+				result.list.forEach((item) => {
+					if (item.userDetail) {
+						item.userid = item.userDetail.id;
+						item.userPhoto = getPhotoUrl(item.userDetail.photo);
+						item.nickname = item.userDetail.nickname;
+						item.username = item.userDetail.username;
+					}
+					item.url = config.preUrl.levelUrl + item.url;
+					item.date = moment(item.date).format('YYYY-MM-DD');
+					item.create_time = moment(item.create_time).format('YYYY-MM-DD HH:mm:ss');
+					delete item.userDetail;
+				});
 			}
 			res.send(resultMessage.success(result));
-		} catch (error) {
-			console.log(error);
-			res.send(resultMessage.error());
-		}
-	},
-
-	// 删除技能
-	deleteBySkillId: async (req, res) => {
-		try {
-			const { user_id, skill_id } = req.body;
-			if (!user_id) return res.send(resultMessage.error('系统错误'));
-			await levelModal.update({ is_delete: 2 }, { where: { user_id, skill_id } });
-			res.send(resultMessage.success('success'));
 		} catch (error) {
 			console.log(error);
 			res.send(resultMessage.error());

@@ -8,4 +8,9 @@ router.get('/allByPage', (req, res) => {
 	idcardService.getAllByPage(req, res);
 });
 
+// 确定通过或者拒绝 sureState
+router.post('/sureState', (req, res) => {
+	idcardService.sureState(req, res);
+});
+
 module.exports = router;

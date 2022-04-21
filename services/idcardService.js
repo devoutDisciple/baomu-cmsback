@@ -2,35 +2,26 @@ const moment = require('moment');
 const sequelize = require('../dataSource/MysqlPoolClass');
 const resultMessage = require('../util/resultMessage');
 const idcard = require('../models/idcard');
+const user = require('../models/user');
 const responseUtil = require('../util/responseUtil');
 const config = require('../config/config');
+const { getPhotoUrl } = require('../util/userUtil');
 
-const timeformat = 'YYYY-MM-DD HH:mm:ss';
-
+const userModal = user(sequelize);
 const idcardModal = idcard(sequelize);
+
+idcardModal.belongsTo(userModal, { foreignKey: 'user_id', targetKey: 'id', as: 'userDetail' });
 const pagesize = 10;
 
 module.exports = {
-	// 上传图片
-	uploadFile: async (req, res, filename) => {
+	// 确定通过审核或者拒绝
+	sureState: async (req, res) => {
 		try {
-			res.send(resultMessage.success({ url: filename }));
-		} catch (error) {
-			console.log(error);
-			res.send(resultMessage.error());
-		}
-	},
-
-	// 添加
-	add: async (req, res) => {
-		try {
-			const body = req.body;
-			if (!body.user_id || !body.idcard1 || !body.idcard2) {
+			const { id, state } = req.body;
+			if (!id || !state) {
 				return res.send(resultMessage.error('系统错误'));
 			}
-			body.state = 2;
-			body.create_time = moment().format(timeformat);
-			await idcardModal.create(body);
+			await idcardModal.update({ state }, { where: { id } });
 			res.send(resultMessage.success('success'));
 		} catch (error) {
 			console.log(error);
@@ -41,22 +32,47 @@ module.exports = {
 	// 获取用户认证信息
 	getAllByPage: async (req, res) => {
 		try {
-			const { current } = req.query;
+			const { current, type } = req.query;
 			if (!current) return res.send(resultMessage.error('系统错误'));
-			const offset = Number(current * pagesize);
-			const idcards = await idcardModal.findOne({
-				where: {
-					is_delete: 1,
-				},
+			const offset = Number(Number(current - 1) * pagesize);
+			const where = { is_delete: 1 };
+			// 认证中
+			if (Number(type) !== -1) {
+				where.state = type;
+			}
+			const idcards = await idcardModal.findAndCountAll({
+				where,
+				include: [
+					{
+						model: userModal,
+						as: 'userDetail',
+						attributes: ['id', 'photo', 'nickname', 'username'],
+					},
+				],
 				limit: pagesize,
 				offset,
 			});
-			if (!idcards) return res.send(resultMessage.success({}));
-			const result = responseUtil.renderFieldsAll(idcards, ['idcard1', 'idcard2', 'state']);
-			if (result.length !== 0) {
-				result.forEach((item) => {
+			const result = {
+				count: 0,
+				list: [],
+			};
+			if (!idcards || !idcards.rows || idcards.rows.length === 0) {
+				return res.send(resultMessage.success(result));
+			}
+			result.count = idcards.count;
+			result.list = responseUtil.renderFieldsAll(idcards.rows, ['id', 'idcard1', 'idcard2', 'state', 'userDetail', 'create_time']);
+			if (result.list.length !== 0) {
+				result.list.forEach((item) => {
+					if (item.userDetail) {
+						item.userid = item.userDetail.id;
+						item.userPhoto = getPhotoUrl(item.userDetail.photo);
+						item.nickname = item.userDetail.nickname;
+						item.username = item.userDetail.username;
+					}
 					item.idcard1 = config.preUrl.idcardUrl + item.idcard1;
 					item.idcard2 = config.preUrl.idcardUrl + item.idcard2;
+					item.create_time = moment(item.create_time).format('YYYY-MM-DD HH:mm:ss');
+					delete item.userDetail;
 				});
 			}
 			res.send(resultMessage.success(result));
