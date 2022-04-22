@@ -4,9 +4,9 @@ const userController = require('./userController');
 const idcardConroller = require('./idcardConroller');
 const levelController = require('./levelController');
 const schoolController = require('./schoolController');
-// const subjectController = require('./subjectController');
-// const teacherController = require('./teacherController');
-// const orderController = require('./orderController');
+const productionController = require('./productionController');
+const deviceController = require('./deviceController');
+const skillController = require('./skillController');
 
 const router = (app) => {
 	// 登录相关
@@ -21,11 +21,11 @@ const router = (app) => {
 	app.use('/level', levelController);
 	// 毕业院校认证相关
 	app.use('/school', schoolController);
-	// // 课程相关
-	// app.use('/subject', subjectController);
-	// // 老师相关
-	// app.use('/teacher', teacherController);
-	// // 话题相关
-	// app.use('/order', orderController);
+	// 作品相关
+	app.use('/production', productionController);
+	// 广场相关
+	app.use('/square', deviceController);
+	// 话题相关
+	app.use('/skill', skillController);
 };
 module.exports = router;
