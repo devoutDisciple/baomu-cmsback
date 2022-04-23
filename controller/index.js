@@ -7,6 +7,7 @@ const schoolController = require('./schoolController');
 const productionController = require('./productionController');
 const deviceController = require('./deviceController');
 const skillController = require('./skillController');
+const teamController = require('./teamController');
 
 const router = (app) => {
 	// 登录相关
@@ -25,7 +26,9 @@ const router = (app) => {
 	app.use('/production', productionController);
 	// 广场相关
 	app.use('/square', deviceController);
-	// 话题相关
+	// 技能相关
 	app.use('/skill', skillController);
+	// 团队相关
+	app.use('/team', teamController);
 };
 module.exports = router;
