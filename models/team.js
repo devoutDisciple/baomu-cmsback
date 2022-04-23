@@ -75,7 +75,7 @@ module.exports = (sequelize) => {
     address: {
       type: Sequelize.STRING(255),
       allowNull: true,
-      comment: "个人签名"
+      comment: "地址"
     },
     create_time: {
       type: Sequelize.DATE,

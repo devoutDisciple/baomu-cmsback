@@ -79,25 +79,6 @@ module.exports = {
 					item.person_num = user_ids.length;
 				});
 			}
-			// let len = result.list.length;
-			// while (len > 0) {
-			// 	len -= 1;
-			// 	const currentItem = result.list[len];
-			// 	currentItem.photo = config.preUrl.teamUrl + currentItem.photo;
-			// 	currentItem.create_time = moment(currentItem.create_time).format('YYYY.MM.DD');
-			// 	const user_ids = currentItem.user_ids.split(',');
-			// 	currentItem.person_num = user_ids.length;
-			// 	// if (Array.isArray(user_ids) && user_ids.length !== 0) {
-			// 	// 	const userFields = ['id', 'photo', 'nickname', 'username'];
-			// 	// 	const users = await userModal.findAll({
-			// 	// 		where: { id: user_ids },
-			// 	// 		attributes: userFields,
-			// 	// 	});
-			// 	// 	const userList = responseUtil.renderFieldsAll(users, userFields);
-			// 	// 	currentItem.userList = userList;
-			// 	// 	delete currentItem.user_ids;
-			// 	// }
-			// }
 			res.send(resultMessage.success(result));
 		} catch (error) {
 			console.log(error);

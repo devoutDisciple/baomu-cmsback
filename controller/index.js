@@ -8,6 +8,8 @@ const productionController = require('./productionController');
 const deviceController = require('./deviceController');
 const skillController = require('./skillController');
 const teamController = require('./teamController');
+const demandController = require('./demandController');
+const priceRecordController = require('./priceRecordController');
 
 const router = (app) => {
 	// 登录相关
@@ -30,5 +32,9 @@ const router = (app) => {
 	app.use('/skill', skillController);
 	// 团队相关
 	app.use('/team', teamController);
+	// 需求相关
+	app.use('/demand', demandController);
+	// 报价相关
+	app.use('/priceRecord', priceRecordController);
 };
 module.exports = router;

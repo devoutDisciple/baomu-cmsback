@@ -14,7 +14,8 @@ module.exports = (sequelize) => {
     },
     name: {
       type: Sequelize.STRING(255),
-      allowNull: true
+      allowNull: true,
+      comment: "用户姓名"
     },
     idcard: {
       type: Sequelize.STRING(255),
