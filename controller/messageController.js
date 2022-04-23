@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const messageService = require('../service/messageService');
+const messageService = require('../services/messageService');
 
 // 增加信息
 router.post('/addMsg', (req, res) => {
