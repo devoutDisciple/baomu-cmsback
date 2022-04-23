@@ -10,6 +10,7 @@ const skillController = require('./skillController');
 const teamController = require('./teamController');
 const demandController = require('./demandController');
 const priceRecordController = require('./priceRecordController');
+const payController = require('./payController');
 
 const router = (app) => {
 	// 登录相关
@@ -36,5 +37,7 @@ const router = (app) => {
 	app.use('/demand', demandController);
 	// 报价相关
 	app.use('/priceRecord', priceRecordController);
+	// 支付相关
+	app.use('/pay', payController);
 };
 module.exports = router;
