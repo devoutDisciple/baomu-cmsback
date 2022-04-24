@@ -46,10 +46,10 @@ module.exports = {
 					});
 					let userDetail = await userModal.findOne({
 						where: { id: curUserId },
-						attributes: ['id', 'nickname', 'photo'],
+						attributes: ['id', 'nickname', 'photo', 'type'],
 					});
 					userDetail = responseUtil.renderFieldsObj(userDetail, ['id', 'nickname', 'photo']);
-					userDetail.photo = getPhotoUrl(userDetail.photo);
+					userDetail.photo = getPhotoUrl(userDetail.photo, userDetail.type);
 					result.unshift({
 						userDetail,
 						records: priceList,

@@ -345,9 +345,10 @@ module.exports = {
 						'nickname',
 						'photo',
 						'integral',
+						'type',
 					]);
 					if (currItem.userDetail) {
-						currItem.userDetail.photo = userUtil.getPhotoUrl(currItem.userDetail.photo);
+						currItem.userDetail.photo = userUtil.getPhotoUrl(currItem.userDetail.photo, currItem.userDetail.type);
 					}
 					currItem.create_time = moment(currItem.create_time).format('YYYY-MM-DD HH:mm');
 					// type: 1-帖子赞 2-评论赞 3-评论的评论的赞

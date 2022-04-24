@@ -81,7 +81,7 @@ module.exports = {
 			if (result.list.length !== 0) {
 				result.list.forEach((item) => {
 					if (item.userDetail) {
-						item.userPhoto = getPhotoUrl(item.userDetail.photo);
+						item.userPhoto = getPhotoUrl(item.userDetail.photo, item.userDetail.type);
 						item.nickname = item.userDetail.nickname;
 						item.username = item.userDetail.username;
 						item.userType = item.userDetail.type;

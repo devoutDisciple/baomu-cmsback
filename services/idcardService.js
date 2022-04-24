@@ -46,7 +46,7 @@ module.exports = {
 					{
 						model: userModal,
 						as: 'userDetail',
-						attributes: ['id', 'photo', 'nickname', 'username'],
+						attributes: ['id', 'photo', 'nickname', 'username', 'type'],
 					},
 				],
 				limit: pagesize,
@@ -65,7 +65,7 @@ module.exports = {
 				result.list.forEach((item) => {
 					if (item.userDetail) {
 						item.userid = item.userDetail.id;
-						item.userPhoto = getPhotoUrl(item.userDetail.photo);
+						item.userPhoto = getPhotoUrl(item.userDetail.photo, item.userDetail.type);
 						item.nickname = item.userDetail.nickname;
 						item.username = item.userDetail.username;
 					}

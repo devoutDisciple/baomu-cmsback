@@ -105,7 +105,7 @@ module.exports = {
 					{
 						model: userModal,
 						as: 'userDetail',
-						attributes: ['id', 'nickname', 'username', 'photo'],
+						attributes: ['id', 'nickname', 'username', 'photo', 'type'],
 					},
 				],
 			});
@@ -113,7 +113,7 @@ module.exports = {
 			const newTeamUserList = responseUtil.renderFieldsAll(teamUserList, [...commonFields, 'userDetail']);
 			newTeamUserList.forEach((item) => {
 				if (item.userDetail) {
-					item.userPhoto = getPhotoUrl(item.userDetail.photo);
+					item.userPhoto = getPhotoUrl(item.userDetail.photo, item.userDetail.type);
 					item.nickname = item.userDetail.nickname;
 					item.username = item.userDetail.username;
 					delete item.userDetail;
@@ -161,13 +161,13 @@ module.exports = {
 					{
 						model: userModal,
 						as: 'userDetail',
-						attributes: ['id', 'nickname', 'photo'],
+						attributes: ['id', 'nickname', 'photo', 'type'],
 					},
 				],
 			});
 			if (!teamUserDetail) return res.send(resultMessage.success([]));
 			const result = responseUtil.renderFieldsObj(teamUserDetail, [...commonFields, 'userDetail']);
-			result.userDetail.photo = getPhotoUrl(result.userDetail.photo);
+			result.userDetail.photo = getPhotoUrl(result.userDetail.photo, result.userDetail.type);
 			res.send(resultMessage.success(result));
 		} catch (error) {
 			console.log(error);

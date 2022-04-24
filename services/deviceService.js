@@ -61,7 +61,7 @@ module.exports = {
 					{
 						model: userModal,
 						as: 'userDetail',
-						attributes: ['id', 'nickname', 'username', 'photo'],
+						attributes: ['id', 'nickname', 'username', 'photo', 'type'],
 						where: userWhere,
 					},
 				],
@@ -80,7 +80,7 @@ module.exports = {
 			if (result.list.length !== 0) {
 				result.list.forEach((item) => {
 					if (item.userDetail) {
-						item.userPhoto = getPhotoUrl(item.userDetail.photo);
+						item.userPhoto = getPhotoUrl(item.userDetail.photo, item.userDetail.type);
 						item.nickname = item.userDetail.nickname;
 						item.username = item.userDetail.username;
 						delete item.userDetail;

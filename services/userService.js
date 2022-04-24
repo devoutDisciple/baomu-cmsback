@@ -42,7 +42,7 @@ module.exports = {
 	getUsersByPage: async (req, res) => {
 		try {
 			const { current = 1, nickname, phone, startTime, endTime } = req.query;
-			const condition = { is_delete: 1 };
+			const condition = { is_delete: 1, type: 1 };
 			if (nickname) {
 				condition.nickname = {
 					[Op.like]: `%${nickname}%`,
@@ -79,7 +79,7 @@ module.exports = {
 				result.count = users.count;
 				result.list = responseUtil.renderFieldsAll(users.rows, commonFields);
 				result.list.forEach((item) => {
-					item.photo = userUtil.getPhotoUrl(item.photo);
+					item.photo = userUtil.getPhotoUrl(item.photo, item.type);
 					item.create_time = item.create_time ? moment(item.create_time).format('YYYY-MM-DD HH:mm') : '';
 				});
 			}
@@ -101,6 +101,7 @@ module.exports = {
 				'photo',
 				'bg_url',
 				'phone',
+				'type',
 				'grade',
 				'comment_num',
 				'attention_num',
@@ -124,7 +125,7 @@ module.exports = {
 			const productionNum = await productionModal.count({ where: { is_delete: 1, type: 1 } });
 			const actionNum = await productionModal.count({ where: { is_delete: 1, type: 2 } });
 			const detail = responseUtil.renderFieldsObj(users, userFields);
-			detail.photo = userUtil.getPhotoUrl(detail.photo);
+			detail.photo = userUtil.getPhotoUrl(detail.photo, detail.type);
 			detail.create_time = detail.create_time ? moment(detail.create_time).format('YYYY-MM-DD HH:mm') : '';
 			detail.productionNum = productionNum || 0;
 			detail.actionNum = actionNum || 0;
