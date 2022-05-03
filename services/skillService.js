@@ -53,7 +53,7 @@ module.exports = {
 				return res.send(resultMessage.success(result));
 			}
 			result.count = skills.count;
-			result.list = responseUtil.renderFieldsAll(skills.rows, ['id', 'skill_id', 'grade', 'state', 'userDetail', 'create_time']);
+			result.list = responseUtil.renderFieldsAll(skills.rows, ['id', 'skill_name', 'grade', 'state', 'userDetail', 'create_time']);
 			if (result.list.length !== 0) {
 				result.list.forEach((item) => {
 					if (item.userDetail) {
@@ -76,8 +76,8 @@ module.exports = {
 	deleteBySkillId: async (req, res) => {
 		try {
 			const { user_id, skill_id } = req.body;
-			if (!user_id) return res.send(resultMessage.error('系统错误'));
-			await skillModal.update({ is_delete: 2 }, { where: { user_id, skill_id } });
+			if (!user_id || !skill_id) return res.send(resultMessage.error('系统错误'));
+			await skillModal.update({ is_delete: 2 }, { where: { user_id, id: skill_id } });
 			res.send(resultMessage.success('success'));
 		} catch (error) {
 			console.log(error);

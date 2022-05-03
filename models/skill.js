@@ -13,10 +13,10 @@ module.exports = (sequelize) => {
       allowNull: true,
       comment: "用户id"
     },
-    skill_id: {
-      type: Sequelize.INTEGER,
+    skill_name: {
+      type: Sequelize.STRING(255),
       allowNull: true,
-      comment: "技能id"
+      comment: "技能名称"
     },
     grade: {
       type: Sequelize.STRING(255),

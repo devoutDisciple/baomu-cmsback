@@ -32,7 +32,7 @@ function loginMiddleware(req, res, next) {
 				return res.send(resultMessage.loginError('请登录!'));
 			});
 	}
-	if (!cookies.userinfo && req.url !== '/account/login') {
+	if (!cookies.userinfo && !req.url.includes('/account/login')) {
 		return res.send(resultMessage.loginError('请登录!'));
 	}
 	next();
