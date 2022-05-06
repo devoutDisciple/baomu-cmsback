@@ -70,7 +70,7 @@ module.exports = (sequelize) => {
       comment: "热度"
     },
     create_time: {
-      type: Sequelize.STRING(255),
+      type: Sequelize.DATE,
       allowNull: true
     },
     is_delete: {

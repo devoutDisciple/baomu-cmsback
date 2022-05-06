@@ -22,7 +22,7 @@ module.exports = {
 				return res.send(resultMessage.error('系统错误'));
 			}
 			await idcardModal.update({ state }, { where: { id } });
-			const userState = state === 3 ? 2 : 1;
+			const userState = state === 4 ? 1 : 2;
 			await userModal.update({ is_name: userState }, { where: { id: user_id } });
 			res.send(resultMessage.success('success'));
 		} catch (error) {
