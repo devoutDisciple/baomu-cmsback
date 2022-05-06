@@ -24,10 +24,9 @@ module.exports = (sequelize) => {
       comment: "对应的user表的id"
     },
     type: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING(255),
       allowNull: true,
-      defaultValue: -1,
-      comment: "乐队的担当 -1: 未知"
+      comment: "乐队的担当"
     },
     state: {
       type: Sequelize.INTEGER,

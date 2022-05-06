@@ -17,11 +17,13 @@ module.exports = {
 	// 确定通过审核或者拒绝
 	sureState: async (req, res) => {
 		try {
-			const { id, state } = req.body;
+			const { id, state, user_id } = req.body;
 			if (!id || !state) {
 				return res.send(resultMessage.error('系统错误'));
 			}
 			await schoolModal.update({ state }, { where: { id } });
+			const userState = state === 3 ? 2 : 1;
+			await userModal.update({ is_school: userState, is_award: userState }, { where: { id: user_id } });
 			res.send(resultMessage.success('success'));
 		} catch (error) {
 			console.log(error);

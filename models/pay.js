@@ -25,11 +25,11 @@ module.exports = (sequelize) => {
     type: {
       type: Sequelize.INTEGER,
       allowNull: true,
-      comment: "1-商户付款 2-付款给演员"
+      comment: "1-商户付款 2-付款给演员 3-退款给商户 4-退款给用户"
     },
     pay_type: {
       type: Sequelize.STRING(255),
-      allowNull: false,
+      allowNull: true,
       defaultValue: "1",
       comment: "1-付款 2-退款 3-其他"
     },
@@ -58,7 +58,7 @@ module.exports = (sequelize) => {
       allowNull: true,
       comment: "退款-微信内部退款单号"
     },
-    refund_state: {
+    refund_status: {
       type: Sequelize.STRING(255),
       allowNull: true,
       comment: "退款-退款状态"

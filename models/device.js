@@ -44,11 +44,11 @@ module.exports = (sequelize) => {
       allowNull: true,
       comment: "简介"
     },
-    is_authentication: {
-      type: Sequelize.INTEGER,
+    authentication: {
+      type: Sequelize.STRING(255),
       allowNull: true,
-      defaultValue: 1,
-      comment: "专业设备认证 1-认证 2-不认证"
+      defaultValue: "1",
+      comment: "专业设备认证"
     },
     grade: {
       type: Sequelize.STRING(255),

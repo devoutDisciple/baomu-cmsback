@@ -13,6 +13,17 @@ module.exports = (sequelize) => {
       allowNull: true,
       comment: "发布人id"
     },
+    team_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      comment: "被邀请的团队的id"
+    },
+    user_type: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 1,
+      comment: "1-个人 2-乐队 3-乐团"
+    },
     join_ids: {
       type: Sequelize.STRING(255),
       allowNull: true,
