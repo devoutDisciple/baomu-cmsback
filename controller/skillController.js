@@ -18,4 +18,9 @@ router.post('/sureState', (req, res) => {
 	skillService.sureState(req, res);
 });
 
+// 删除技能 deleteItemById
+router.post('/deleteItemById', (req, res) => {
+	skillService.deleteItemById(req, res);
+});
+
 module.exports = router;

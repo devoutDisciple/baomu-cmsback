@@ -99,4 +99,19 @@ module.exports = {
 			res.send(resultMessage.error());
 		}
 	},
+
+	// 删除技能
+	deleteItemById: async (req, res) => {
+		try {
+			const { id } = req.body;
+			if (!id) {
+				return res.send(resultMessage.error('系统错误'));
+			}
+			await skillModal.destroy({ where: { id } });
+			res.send(resultMessage.success('success'));
+		} catch (error) {
+			console.log(error);
+			res.send(resultMessage.error());
+		}
+	},
 };
