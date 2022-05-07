@@ -143,7 +143,7 @@ module.exports = (sequelize) => {
     play_id: {
       type: Sequelize.INTEGER,
       allowNull: true,
-      comment: "表演类型"
+      comment: "演奏方式"
     },
     style_id: {
       type: Sequelize.INTEGER,

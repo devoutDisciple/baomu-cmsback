@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
-  return sequelize.define('school', {
+  return sequelize.define('award', {
     id: {
       autoIncrement: true,
       type: Sequelize.INTEGER,
@@ -12,35 +12,30 @@ module.exports = (sequelize) => {
       type: Sequelize.INTEGER,
       allowNull: false
     },
-    name: {
+    certificate_gov: {
       type: Sequelize.STRING(255),
       allowNull: true,
-      comment: "用户姓名"
+      comment: "证书颁发机构"
     },
-    idcard: {
+    certificate_name: {
       type: Sequelize.STRING(255),
       allowNull: true,
-      comment: "身份证号"
+      comment: "证书名称"
     },
-    school_name: {
+    certificate_level: {
       type: Sequelize.STRING(255),
       allowNull: true,
-      comment: "学校名称"
+      comment: "名次"
     },
-    graduation_time: {
+    certificate_time: {
       type: Sequelize.DATE,
       allowNull: true,
-      comment: "毕业时间"
+      comment: "证书颁发时间"
     },
-    study_id: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      comment: "学习形式"
-    },
-    school_url: {
+    award_url: {
       type: Sequelize.STRING(255),
       allowNull: true,
-      comment: "毕业证书图片"
+      comment: "获奖证书图片"
     },
     state: {
       type: Sequelize.INTEGER,
@@ -60,7 +55,7 @@ module.exports = (sequelize) => {
     }
   }, {
     sequelize,
-    tableName: 'school',
+    tableName: 'award',
     timestamps: false,
     indexes: [
       {

@@ -1,5 +1,6 @@
 var Sequelize = require("sequelize").Sequelize;
 var _account = require("./account");
+var _award = require("./award");
 var _comment_record = require("./comment_record");
 var _data = require("./data");
 var _demand = require("./demand");
@@ -25,6 +26,7 @@ var _video = require("./video");
 
 function initModels(sequelize) {
   var account = _account(sequelize, Sequelize);
+  var award = _award(sequelize, Sequelize);
   var comment_record = _comment_record(sequelize, Sequelize);
   var data = _data(sequelize, Sequelize);
   var demand = _demand(sequelize, Sequelize);
@@ -51,6 +53,7 @@ function initModels(sequelize) {
 
   return {
     account,
+    award,
     comment_record,
     data,
     demand,
