@@ -23,7 +23,23 @@ module.exports = {
 			}
 			await schoolModal.update({ state }, { where: { id } });
 			const userState = state === 4 ? 1 : 2;
-			await userModal.update({ is_school: userState, is_award: userState }, { where: { id: user_id } });
+			await userModal.update({ is_school: userState }, { where: { id: user_id } });
+			res.send(resultMessage.success('success'));
+		} catch (error) {
+			console.log(error);
+			res.send(resultMessage.error());
+		}
+	},
+
+	// 删除
+	deleteItemById: async (req, res) => {
+		try {
+			const { id, user_id } = req.body;
+			if (!id || !user_id) {
+				return res.send(resultMessage.error('系统错误'));
+			}
+			await schoolModal.update({ is_delete: 2 }, { where: { id } });
+			await userModal.update({ is_school: 2 }, { where: { id: user_id } });
 			res.send(resultMessage.success('success'));
 		} catch (error) {
 			console.log(error);

@@ -13,4 +13,9 @@ router.post('/sureState', (req, res) => {
 	schoolService.sureState(req, res);
 });
 
+// 删除
+router.post('/deleteItemById', (req, res) => {
+	schoolService.deleteItemById(req, res);
+});
+
 module.exports = router;

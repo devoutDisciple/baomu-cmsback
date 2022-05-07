@@ -13,4 +13,9 @@ router.post('/sureState', (req, res) => {
 	levelService.sureState(req, res);
 });
 
+// 删除
+router.post('/deleteItemById', (req, res) => {
+	levelService.deleteItemById(req, res);
+});
+
 module.exports = router;

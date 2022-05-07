@@ -31,6 +31,22 @@ module.exports = {
 		}
 	},
 
+	// 删除
+	deleteItemById: async (req, res) => {
+		try {
+			const { id, user_id } = req.body;
+			if (!id || !user_id) {
+				return res.send(resultMessage.error('系统错误'));
+			}
+			await levelModal.update({ is_delete: 2 }, { where: { id } });
+			await userModal.update({ is_level: 2 }, { where: { id: user_id } });
+			res.send(resultMessage.success('success'));
+		} catch (error) {
+			console.log(error);
+			res.send(resultMessage.error());
+		}
+	},
+
 	// 获取用户认证信息
 	getAllByPage: async (req, res) => {
 		try {
