@@ -30,7 +30,7 @@ module.exports = {
 				'img_urls',
 				'price',
 				'desc',
-				'is_authentication',
+				'authentication',
 				'grade',
 				'comment_num',
 				'goods_num',

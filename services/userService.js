@@ -32,8 +32,8 @@ const commonFields = [
 	'province',
 	'city',
 	'address',
-	'play_id',
 	'style_id',
+	'instruments_id',
 	'create_time',
 ];
 
@@ -41,24 +41,28 @@ module.exports = {
 	// 根据分页获取用户信息
 	getUsersByPage: async (req, res) => {
 		try {
-			const { current = 1, nickname, phone, startTime, endTime } = req.query;
+			const { current = 1, nickname, phone, startTime, endTime, state } = req.query;
 			const condition = { is_delete: 1, type: 1 };
-			if (nickname) {
+			if (nickname && nickname !== 'undefined') {
 				condition.nickname = {
 					[Op.like]: `%${nickname}%`,
 				};
 			}
-			if (phone) {
+			if (state && state !== 'undefined' && Number(state) !== -1) {
+				condition.is_name = state;
+				condition.is_school = state;
+			}
+			if (phone && phone !== 'undefined') {
 				condition.phone = {
 					[Op.like]: `%${phone}%`,
 				};
 			}
-			if (startTime) {
+			if (startTime && startTime !== 'undefined') {
 				condition.create_time = {
 					[Op.gte]: startTime,
 				};
 			}
-			if (endTime) {
+			if (endTime && endTime !== 'undefined') {
 				condition.create_time = {
 					[Op.lte]: `%${endTime}%`,
 				};
@@ -114,8 +118,8 @@ module.exports = {
 				'province',
 				'city',
 				'address',
-				'play_id',
 				'style_id',
+				'instruments_id',
 				'desc',
 				'create_time',
 			];
