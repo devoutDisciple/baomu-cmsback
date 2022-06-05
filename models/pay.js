@@ -11,11 +11,12 @@ module.exports = (sequelize) => {
     user_id: {
       type: Sequelize.STRING(255),
       allowNull: false,
-      comment: "用户id"
+      comment: "发起人的用户id"
     },
     open_id: {
       type: Sequelize.STRING(255),
-      allowNull: false
+      allowNull: false,
+      comment: "发起人的用户openid"
     },
     demand_id: {
       type: Sequelize.INTEGER,
@@ -25,13 +26,7 @@ module.exports = (sequelize) => {
     type: {
       type: Sequelize.INTEGER,
       allowNull: true,
-      comment: "1-商户付款 2-付款给演员 3-退款给商户 4-退款给用户"
-    },
-    pay_type: {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      defaultValue: "1",
-      comment: "1-付款 2-退款 3-其他"
+      comment: "1-商户付款 2-系统付款给演员 3-系统退款给商户 4-系统退款给用户"
     },
     out_trade_no: {
       type: Sequelize.STRING(255),
@@ -63,10 +58,35 @@ module.exports = (sequelize) => {
       allowNull: true,
       comment: "退款-退款状态"
     },
+    batch_id: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "系统转账的-微信批次单号，微信商家转账系统返回的唯一标识"
+    },
+    out_batch_no: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "系统转账的-商户系统内部的商家批次单号"
+    },
+    out_detail_no: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "系统转账的-商户系统内部区分转账批次单下不同转账明细单的唯一标识"
+    },
+    batch_status: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "系统转账的-状态 WAIT_PAY：待付款 ACCEPTED:已受理 PROCESSING:转账中 FINISHED：已完成 CLOSED：已关闭"
+    },
+    batch_detail_status: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "系统转账的-明细状态   PROCESSING：转账中 SUCCESS：转账成功 FAIL：转账失败"
+    },
     money: {
       type: Sequelize.STRING(255),
       allowNull: false,
-      comment: "金额"
+      comment: "金额 单位分"
     },
     create_time: {
       type: Sequelize.DATE,

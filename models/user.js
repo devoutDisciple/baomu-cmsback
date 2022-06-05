@@ -156,11 +156,21 @@ module.exports = (sequelize) => {
       allowNull: true,
       comment: "个人签名"
     },
-    money: {
+    total_money: {
       type: Sequelize.STRING(255),
       allowNull: true,
       defaultValue: "0",
-      comment: "账户余额"
+      comment: "账户总金额"
+    },
+    available_money: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "可用金额"
+    },
+    freeze_money: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      comment: "冻结金额"
     },
     create_time: {
       type: Sequelize.DATE,

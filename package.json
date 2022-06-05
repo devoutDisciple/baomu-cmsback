@@ -21,7 +21,8 @@
     "node-schedule": "^2.0.0",
     "request": "^2.88.2",
     "sequelize": "^6.5.1",
-    "shelljs": "^0.8.4"
+    "shelljs": "^0.8.4",
+    "decimal.js": "^10.3.1"
   },
   "devDependencies": {
     "eslint": "^7.18.0",

@@ -13,6 +13,7 @@ var _idcard = require("./idcard");
 var _instrument = require("./instrument");
 var _level = require("./level");
 var _message = require("./message");
+var _money = require("./money");
 var _pay = require("./pay");
 var _price_record = require("./price_record");
 var _production = require("./production");
@@ -39,6 +40,7 @@ function initModels(sequelize) {
   var instrument = _instrument(sequelize, Sequelize);
   var level = _level(sequelize, Sequelize);
   var message = _message(sequelize, Sequelize);
+  var money = _money(sequelize, Sequelize);
   var pay = _pay(sequelize, Sequelize);
   var price_record = _price_record(sequelize, Sequelize);
   var production = _production(sequelize, Sequelize);
@@ -66,6 +68,7 @@ function initModels(sequelize) {
     instrument,
     level,
     message,
+    money,
     pay,
     price_record,
     production,

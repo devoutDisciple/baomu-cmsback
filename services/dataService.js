@@ -8,6 +8,7 @@ const pay = require('../models/pay');
 const team = require('../models/team');
 const responseUtil = require('../util/responseUtil');
 const ObjectUtil = require('../util/ObjectUtil');
+const calculate = require('../util/calculate');
 
 const productionModel = production(sequelize);
 const userModel = user(sequelize);
@@ -59,21 +60,48 @@ module.exports = {
 						},
 					},
 				})) || 0;
-			// 总收入
-			let totalMoney = (await payModel.sum('money', { where: { pay_type: 1, is_delete: 1 } })) || 0;
-			if (totalMoney) totalMoney = (totalMoney / 100).toFixed(2);
-			// 今天收入
-			let todayMoney =
+			// 商户付款金额
+			let dealMoney = (await payModel.sum('money', { where: { type: 1, is_delete: 1 } })) || 0;
+			dealMoney = Number(calculate.div(dealMoney, 100)).toFixed(2);
+			let todayDealMoney =
 				(await payModel.sum('money', {
 					where: {
-						pay_type: 1,
+						type: 1,
 						is_delete: 1,
 						create_time: {
 							[Op.gte]: todayTime,
 						},
 					},
 				})) || 0;
-			if (todayMoney) todayMoney = (todayMoney / 100).toFixed(2);
+			todayDealMoney = Number(calculate.div(todayDealMoney, 100)).toFixed(2);
+			// 企业付款金额
+			let companyMoney = (await payModel.sum('money', { where: { type: 2, is_delete: 1 } })) || 0;
+			companyMoney = Number(calculate.div(companyMoney, 100)).toFixed(2);
+			let todayCompanyMoney =
+				(await payModel.sum('money', {
+					where: {
+						type: 2,
+						is_delete: 1,
+						create_time: {
+							[Op.gte]: todayTime,
+						},
+					},
+				})) || 0;
+			todayCompanyMoney = Number(calculate.div(todayCompanyMoney, 100)).toFixed(2);
+
+			let refundMoney = (await payModel.sum('money', { where: { type: 3, is_delete: 1 } })) || 0;
+			refundMoney = Number(calculate.div(refundMoney, 100)).toFixed(2);
+			let todayRefundMoney =
+				(await payModel.sum('money', {
+					where: {
+						type: 3,
+						is_delete: 1,
+						create_time: {
+							[Op.gte]: todayTime,
+						},
+					},
+				})) || 0;
+			todayRefundMoney = Number(calculate.div(todayRefundMoney, 100)).toFixed(2);
 
 			res.send(
 				resultMessage.success({
@@ -83,8 +111,12 @@ module.exports = {
 					todayProductions,
 					totalTeams,
 					todayTeams,
-					totalMoney,
-					todayMoney,
+					dealMoney,
+					todayDealMoney,
+					companyMoney,
+					todayCompanyMoney,
+					refundMoney,
+					todayRefundMoney,
 				}),
 			);
 		} catch (error) {
@@ -145,16 +177,15 @@ module.exports = {
 			const { startTime, endTime } = req.query;
 			const users = await payModel.findAll({
 				order: [['create_time', 'ASC']],
-				attributes: ['id', 'pay_type', 'money', 'create_time'],
+				attributes: ['id', 'money', 'create_time'],
 				where: {
 					create_time: {
 						[Op.gte]: moment(startTime).format(startTimeFormat),
 						[Op.lte]: moment(endTime).format(endTimeFormat),
 					},
-					pay_type: 1,
 				},
 			});
-			const result = ObjectUtil.countMoneyByTime(responseUtil.renderFieldsAll(users, ['id', 'pay_type', 'money', 'create_time']));
+			const result = ObjectUtil.countMoneyByTime(responseUtil.renderFieldsAll(users, ['id', 'money', 'create_time']));
 			res.send(resultMessage.success(result));
 		} catch (error) {
 			console.log(error);

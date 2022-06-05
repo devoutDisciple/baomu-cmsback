@@ -5,6 +5,7 @@ const resultMessage = require('../util/resultMessage');
 const pay = require('../models/pay');
 const user = require('../models/user');
 const responseUtil = require('../util/responseUtil');
+const calculate = require('../util/calculate');
 const { getPhotoUrl } = require('../util/userUtil');
 
 const userModal = user(sequelize);
@@ -18,16 +19,13 @@ module.exports = {
 	// 获取支付的记录
 	getPayList: async (req, res) => {
 		try {
-			const { current, type, nickname, pay_type } = req.query;
+			const { current, type, nickname } = req.query;
 			if (!current) return res.send(resultMessage.error('系统错误'));
 			const offset = Number(Number(current - 1) * pagesize);
 			const payWhere = { is_delete: 1 };
-			const userWhere = {};
+			const userWhere = { is_delete: 1 };
 			if (Number(type) !== -1) {
 				payWhere.type = type;
-			}
-			if (Number(pay_type) !== -1) {
-				payWhere.pay_type = pay_type;
 			}
 			if (String(nickname).trim()) {
 				userWhere.nickname = {
@@ -44,6 +42,7 @@ module.exports = {
 						where: userWhere,
 					},
 				],
+				order: [['create_time', 'DESC']],
 				limit: pagesize,
 				offset,
 			});
@@ -59,8 +58,9 @@ module.exports = {
 				'id',
 				'user_id',
 				'type',
-				'pay_type',
 				'trade_state',
+				'refund_status',
+				'batch_detail_status',
 				'money',
 				'userDetail',
 				'create_time',
@@ -74,7 +74,7 @@ module.exports = {
 						item.username = item.userDetail.username;
 						delete item.userDetail;
 					}
-					item.money = Number(Number(item.money) / 100).toFixed(2);
+					item.money = Number(calculate.div(item.money, 100)).toFixed(2);
 					item.create_time = moment(item.create_time).format('YYYY-MM-DD HH:mm:ss');
 				});
 			}
